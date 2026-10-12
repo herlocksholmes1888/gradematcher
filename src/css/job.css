@@ -1,0 +1,149 @@
+
+.job-page {
+    width: 90%;
+    max-width: 900px;
+
+    margin: 40px auto;
+}
+
+
+
+
+.job-page > header {
+    background-color: white;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.job-page > header h1 {
+    font-size: 32px;
+
+    margin-bottom: 10px;
+}
+
+.job-page > header h2 {
+    font-size: 20px;
+
+    color: #2563eb;
+
+    margin-bottom: 15px;
+}
+
+.job-page > header p {
+    color: #666;
+
+    margin: 7px 0;
+}
+
+
+
+
+.job-page > header button {
+    margin-top: 20px;
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.job-page > header button:hover {
+    background-color: #1d4ed8;
+}
+
+
+
+
+.job-page section {
+    background-color: white;
+
+    margin-top: 20px;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.job-page section h2 {
+    font-size: 22px;
+
+    margin-bottom: 15px;
+}
+
+.job-page section p {
+    color: #555;
+
+    line-height: 1.7;
+}
+
+
+
+
+.job-page ul {
+    list-style: none;
+
+    padding: 0;
+}
+
+.job-page li {
+    padding: 10px 0;
+
+    color: #555;
+
+    border-bottom: 1px solid #eee;
+}
+
+.job-page li:last-child {
+    border-bottom: none;
+}
+
+.job-page li::before {
+    content: "✓";
+
+    color: #2563eb;
+
+    font-weight: bold;
+
+    margin-right: 10px;
+}
+
+
+
+@media (max-width: 600px) {
+
+    .job-page {
+        width: 95%;
+    }
+
+    .job-page > header {
+        padding: 25px;
+    }
+
+    .job-page > header h1 {
+        font-size: 25px;
+    }
+
+    .job-page section {
+        padding: 22px;
+    }
+
+}
