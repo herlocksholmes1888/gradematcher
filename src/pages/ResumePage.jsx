@@ -85,7 +85,7 @@ function ResumePage() {
                     <div className="form-group">
 
                         <label>
-                            E-mail
+                            Email
                         </label>
 
                         <input

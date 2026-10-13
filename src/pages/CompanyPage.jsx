@@ -15,7 +15,7 @@ function CompanyPage() {
 
                 <div>
 
-                    <h1>Empresa XYZ</h1>
+                    <h1>Empresa XY</h1>
 
                     <p>
                         Tecnologia e Desenvolvimento

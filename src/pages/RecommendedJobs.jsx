@@ -35,7 +35,7 @@ function RecommendedJobs() {
             <section className="welcome">
 
                 <h1>
-                    Olá, João! 👋
+                    Bem Vindo, João! 👋
                 </h1>
 
                 <p>

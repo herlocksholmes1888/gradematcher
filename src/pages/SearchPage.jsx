@@ -12,7 +12,7 @@ function SearchPage() {
         <main className="search-page">
 
             <h1>
-                Resultados da pesquisa
+                Resultados das pesquisas
             </h1>
 
             <p>

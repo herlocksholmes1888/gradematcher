@@ -31,7 +31,7 @@ function UserPage() {
                     </p>
 
                     <p>
-                        ✉ joao@email.com
+                        ✉ joao123@email.com
                     </p>
 
                 </div>

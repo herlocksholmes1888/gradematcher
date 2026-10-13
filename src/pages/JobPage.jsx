@@ -13,7 +13,7 @@ function JobPage() {
                 </h1>
 
                 <h2>
-                    Empresa XYZ
+                    Empresa XY
                 </h2>
 
                 <p>

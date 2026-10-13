@@ -87,7 +87,7 @@ function GradesPage() {
 
                 <p className="grades-description">
                     Preencha suas notas acadêmicas para
-                    melhorar as recomendações de vagas.
+                    melhorar a recomendação de vagas.
                 </p>
 
 
