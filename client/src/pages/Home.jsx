@@ -4,19 +4,20 @@ export default function Home() {
   return (
     <section className="hero page-width">
       <div className="hero-copy">
-        <div className="eyebrow"><span className="status-dot" /> SISTEMA DE IDENTIFICAÇÃO DIGITAL</div>
-        <h1>Segurança começa com uma <span>identidade confiável.</span></h1>
+        <div className="eyebrow"><span className="status-dot" /> VAGAS DE ESTÁGIO POR AFINIDADE ACADÊMICA</div>
+        <h1>Sua próxima vaga de estágio <span>combina com suas notas.</span></h1>
         <p className="hero-description">
-          Uma plataforma acadêmica para demonstrar o gerenciamento de usuários
-          e o controle de acesso a recursos por meio de uma interface simples e organizada.
+          O GradeMatcher conecta candidatos a vagas de estágio com base no curso,
+          na faculdade e nas disciplinas em que eles se destacam — e ajuda empresas
+          a encontrar quem já tem a base certa para a vaga.
         </p>
         <div className="hero-actions">
-          <Link className="button button-primary" to="/cadastro">Começar agora <span>→</span></Link>
+          <Link className="button button-primary" to="/cadastro">Criar minha conta <span>→</span></Link>
           <Link className="button button-secondary" to="/login">Já tenho uma conta</Link>
         </div>
         <div className="trust-row">
           <div className="trust-icon">✓</div>
-          <p><strong>Acesso organizado</strong><br /><span>Interface pensada para clareza e segurança.</span></p>
+          <p><strong>Recomendação por notas</strong><br /><span>Candidaturas priorizadas pela afinidade real com a vaga.</span></p>
         </div>
       </div>
 
@@ -24,9 +25,9 @@ export default function Home() {
         <div className="orb orb-one" />
         <div className="orb orb-two" />
         <div className="identity-card">
-          <div className="card-top"><span className="mini-logo">D</span><span className="card-label">IDENTIDADE DIGITAL</span><span className="card-menu">•••</span></div>
+          <div className="card-top"><span className="mini-logo">G</span><span className="card-label">GRADEMATCHER</span><span className="card-menu">•••</span></div>
           <div className="fingerprint">
-            <svg viewBox="0 0 180 180" role="img" aria-label="Ilustração de impressão digital">
+            <svg viewBox="0 0 180 180" role="img" aria-label="Ilustração de combinação entre candidato e vaga">
               <g fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round">
                 <path d="M90 22C53 22 27 50 27 85" />
                 <path d="M90 35C61 35 40 57 40 85c0 20-4 36-12 50" />
@@ -43,10 +44,10 @@ export default function Home() {
             </svg>
           </div>
           <div className="scan-line" />
-          <div className="card-bottom"><div><span className="tiny-muted">STATUS DO SISTEMA</span><strong><i className="status-dot" /> Interface demonstrativa</strong></div><span className="shield">◇</span></div>
+          <div className="card-bottom"><div><span className="tiny-muted">STATUS DA CANDIDATURA</span><strong><i className="status-dot" /> Recomendado para a vaga</strong></div><span className="shield">◇</span></div>
         </div>
-        <div className="floating-tag tag-top"><span className="tag-check">✓</span><div><strong>Identidade</strong><small>Interface demonstrativa</small></div></div>
-        <div className="floating-tag tag-bottom"><span className="tag-lock">⌑</span><div><strong>Controle de acesso</strong><small>Área de demonstração</small></div></div>
+        <div className="floating-tag tag-top"><span className="tag-check">✓</span><div><strong>Notas</strong><small>Por disciplina e área</small></div></div>
+        <div className="floating-tag tag-bottom"><span className="tag-lock">⌑</span><div><strong>Vagas</strong><small>Filtradas por curso</small></div></div>
       </div>
     </section>
   );

@@ -1,0 +1,143 @@
+
+
+.company-page {
+    width: 91%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+
+.company-header {
+    background-color: white;
+
+    padding: 35px;
+
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.company-header img {
+    width: 120px;
+    height: 120px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+
+    border: 1px solid #ddd;
+}
+
+.company-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.company-header p {
+    color: #666;
+    margin-top: 6px;
+}
+
+.company-about {
+    background-color: white;
+
+    margin-top: 25px;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.company-about h2 {
+    margin-bottom: 15px;
+}
+
+.company-about p {
+    line-height: 1.6;
+    color: #555;
+}
+
+
+
+
+.company-jobs {
+    margin-top: 25px;
+}
+
+.company-jobs h2 {
+    margin-bottom: 20px;
+}
+
+
+
+.job-card {
+    background-color: white;
+
+    padding: 25px;
+
+    margin-bottom: 15px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+
+    transition: 0.2s;
+}
+
+.job-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.job-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.job-card p {
+    color: #666;
+    margin: 6px 0;
+}
+
+.job-card button {
+    margin-top: 15px;
+
+    background-color: #2563eb;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+}
+
+.job-card button:hover {
+    background-color: #1d4ed8;
+}
+
+
+
+@media (max-width: 600px) {
+
+    .company-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .company-header h1 {
+        font-size: 25px;
+    }
+
+}
