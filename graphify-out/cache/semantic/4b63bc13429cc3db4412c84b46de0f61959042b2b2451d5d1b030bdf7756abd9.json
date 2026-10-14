@@ -1,0 +1,1 @@
+{"nodes": [{"id": "references_conn_pooling", "label": "Use Connection Pooling for All Applications", "file_type": "document", "source_file": ".claude/skills/supabase-postgres-best-practices/references/conn-pooling.md", "source_location": null, "source_url": null, "captured_at": null, "author": null, "contributor": null}], "edges": [], "hyperedges": []}
