@@ -2,7 +2,7 @@
 
 > Projeto de conclusão de curso — Ciência da Computação, 2026.
 
-O **Gradematcher** conecta candidatos e empresas a partir do histórico acadêmico. Candidatos cadastram seu perfil, curso, grade curricular e notas; empresas publicam vagas com cursos e habilidades desejados; a aplicação cruza essas informações para encontrar o melhor encaixe entre as partes. Seu principal objetivo é fazer com que alunos se conectem a oportunidades não-exploratórias, e tenham a oportunidade de concluir seus estudos com experiência no mercado de trabalho. 
+O **Gradematcher** conecta candidatos e empresas a partir do histórico acadêmico. Candidatos cadastram seu perfil, curso, grade curricular e notas; empresas publicam vagas com cursos e habilidades desejados; a aplicação cruza essas informações para encontrar o melhor encaixe entre as partes. Seu principal objetivo é fazer com que alunos se conectem a oportunidades não-exploratórias, e tenham a oportunidade de concluir seus estudos com experiência no mercado de trabalho. Para utilizar o Gradematcher, [clique aqui](https://gradematcher-tcc.vercel.app/)
 
 ## Sumário
 
