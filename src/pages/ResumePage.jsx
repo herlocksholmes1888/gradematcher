@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../css/resume.css";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 function ResumePage() {
 

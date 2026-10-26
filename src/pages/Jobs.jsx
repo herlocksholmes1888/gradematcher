@@ -5,6 +5,7 @@ import { Alert, EmptyState, Input, PageHeader, PageLoader, Select } from '../com
 import { fetchOpenJobs } from '../lib/queries'
 import { MODALITY, STATES } from '../lib/format'
 import { useCandidateData } from '../lib/useCandidateData'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 
 export default function Jobs() {
   const [jobs, setJobs] = useState(null)

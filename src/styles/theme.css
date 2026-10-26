@@ -1,0 +1,330 @@
+
+/* =========================================
+   GRADEMATCHER — TEMA GLOBAL
+   ========================================= */
+
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --page-bg: #f4f7fb;
+  --surface-bg: #ffffff;
+  --surface-secondary: #edf2f8;
+  --surface-hover: #e5edf7;
+
+  --text-primary: #172033;
+  --text-secondary: #596579;
+  --text-muted: #68758a;
+
+  --border-color: #dce3ed;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+
+  --primary-color: #3157d5;
+  --primary-hover: #2445b8;
+  --primary-text: #ffffff;
+
+  --success-color: #16835e;
+  --danger-color: #dc3545;
+
+  --shadow-color: rgb(20 35 65 / 10%);
+  --focus-ring: rgb(49 87 213 / 25%);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --page-bg: #10141d;
+  --surface-bg: #191f2b;
+  --surface-secondary: #222b3a;
+  --surface-hover: #2b374a;
+
+  --text-primary: #edf2fa;
+  --text-secondary: #c0cada;
+  --text-muted: #a4b0c3;
+
+  --border-color: #354155;
+  --input-bg: #151b26;
+  --input-border: #46536a;
+
+  --primary-color: #91a7ff;
+  --primary-hover: #b0beff;
+  --primary-text: #101729;
+
+  --success-color: #54d6a4;
+  --danger-color: #ff8993;
+
+  --shadow-color: rgb(0 0 0 / 28%);
+  --focus-ring: rgb(120 149 255 / 30%);
+}
+
+/* =========================================
+   BASE DO DOCUMENTO
+   ========================================= */
+
+html {
+  min-height: 100%;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+body,
+#root {
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+body,
+#root,
+main,
+header,
+footer,
+nav,
+section,
+article,
+aside {
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+/* =========================================
+   UTILITÁRIOS SEMÂNTICOS DE TEXTO
+   ========================================= */
+
+:root[data-theme] .text-theme-primary {
+  color: var(--text-primary) !important;
+}
+
+:root[data-theme] .text-theme-secondary {
+  color: var(--text-secondary) !important;
+}
+
+:root[data-theme] .text-theme-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Utilitários semânticos de superfície */
+
+:root[data-theme] .bg-theme-page {
+  background-color: var(--page-bg) !important;
+}
+
+:root[data-theme] .bg-theme-surface {
+  background-color: var(--surface-bg) !important;
+}
+
+:root[data-theme] .bg-theme-secondary {
+  background-color: var(--surface-secondary) !important;
+}
+
+:root[data-theme] .bg-theme-hover:hover {
+  background-color: var(--surface-hover) !important;
+}
+
+:root[data-theme] .border-theme {
+  border-color: var(--border-color) !important;
+}
+
+/* =========================================
+   TEXTOS
+   ========================================= */
+
+:root[data-theme] h1,
+:root[data-theme] h2,
+:root[data-theme] h3,
+:root[data-theme] h4,
+:root[data-theme] h5,
+:root[data-theme] h6,
+:root[data-theme] p,
+:root[data-theme] label,
+:root[data-theme] li,
+:root[data-theme] dt,
+:root[data-theme] dd {
+  color: inherit;
+}
+
+:root[data-theme] a:not([class*="text-"]) {
+  color: var(--primary-color);
+}
+
+:root[data-theme] small,
+:root[data-theme] .text-muted,
+:root[data-theme] .text-secondary,
+:root[data-theme] .subtitle,
+:root[data-theme] .description {
+  color: var(--text-secondary);
+}
+
+/* =========================================
+   FORMULÁRIOS
+   ========================================= */
+
+:root[data-theme] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+:root[data-theme] textarea,
+:root[data-theme] select {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--input-border);
+}
+
+:root[data-theme] input::placeholder,
+:root[data-theme] textarea::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+:root[data-theme] input:focus,
+:root[data-theme] textarea:focus,
+:root[data-theme] select:focus {
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+:root[data-theme] input:focus-visible,
+:root[data-theme] textarea:focus-visible,
+:root[data-theme] select:focus-visible,
+:root[data-theme] button:focus-visible,
+:root[data-theme] a:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+:root[data-theme] select option {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+}
+
+/* =========================================
+   CARTÕES E SUPERFÍCIES
+   ========================================= */
+
+:root[data-theme] .card,
+:root[data-theme] .job-card,
+:root[data-theme] .stat-card,
+:root[data-theme] .dashboard-card,
+:root[data-theme] .form-card,
+:root[data-theme] .login-card,
+:root[data-theme] .signup-card,
+:root[data-theme] .register-card,
+:root[data-theme] .profile-card,
+:root[data-theme] .application-card,
+:root[data-theme] .candidate-card,
+:root[data-theme] .company-card,
+:root[data-theme] .modal-content,
+:root[data-theme] .dropdown-menu,
+:root[data-theme] .popover,
+:root[data-theme] .table-container {
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 18px var(--shadow-color);
+}
+
+/* =========================================
+   PÁGINAS E ESTRUTURA
+   ========================================= */
+
+:root[data-theme] .layout,
+:root[data-theme] .page,
+:root[data-theme] .page-container,
+:root[data-theme] .dashboard,
+:root[data-theme] .content,
+:root[data-theme] .main-content,
+:root[data-theme] .home-page,
+:root[data-theme] .login-page,
+:root[data-theme] .signup-page,
+:root[data-theme] .register-page,
+:root[data-theme] .jobs-page,
+:root[data-theme] .profile-page,
+:root[data-theme] .grades-page,
+:root[data-theme] .applications-page {
+  background-color: var(--page-bg);
+  color: var(--text-primary);
+}
+
+:root[data-theme] .navbar,
+:root[data-theme] .header,
+:root[data-theme] .sidebar,
+:root[data-theme] .company-header,
+:root[data-theme] .candidate-header {
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+/* =========================================
+   TABELAS
+   ========================================= */
+
+:root[data-theme] table {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+:root[data-theme] th {
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+}
+
+:root[data-theme] td {
+  border-color: var(--border-color);
+}
+
+:root[data-theme] tr:hover td {
+  background-color: var(--surface-hover);
+}
+
+/* =========================================
+   BOTÃO DE ALTERNÂNCIA DE TEMA
+   ========================================= */
+
+:root[data-theme] .theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background-color: var(--surface-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+:root[data-theme] .theme-toggle:hover {
+  background-color: var(--surface-hover);
+}
+
+/* =========================================
+   BORDAS E SEPARADORES
+   ========================================= */
+
+:root[data-theme] hr,
+:root[data-theme] .divider {
+  border-color: var(--border-color);
+}
+
+/* =========================================
+   ACESSIBILIDADE
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

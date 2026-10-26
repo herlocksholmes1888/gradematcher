@@ -1,110 +1,363 @@
-import { useEffect, useMemo, useState } from 'react'
+
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../lib/auth'
-import { fetchOpenJobs } from '../../lib/queries'
-import { useCandidateData } from '../../lib/useCandidateData'
-import { isRecommended } from '../../lib/match'
-import { nota } from '../../lib/format'
+import { JOB_STATUS, MODALITY, brl, date } from '../../lib/format'
 import { Container } from '../../components/Layout'
-import JobCard from '../../components/JobCard'
-import { Button, Card, EmptyState, PageHeader, PageLoader, Stat } from '../../components/ui'
+import {
+  Badge,
+  Button,
+  Card,
+  EmptyState,
+  PageHeader,
+  PageLoader,
+  Stat,
+} from '../../components/ui'
 
-function Checklist({ items }) {
-  const pending = items.filter((i) => !i.done)
-  if (!pending.length) return null
-  return (
-    <Card className="mb-8 border-indigo-200 bg-indigo-50/50 p-5">
-      <p className="font-semibold text-slate-900">Complete seu perfil para receber recomendações melhores</p>
-      <ul className="mt-3 grid gap-2 sm:grid-cols-3">
-        {items.map((i) => (
-          <li key={i.label}>
-            <Link to={i.to} className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm ${i.done ? 'text-slate-400 line-through' : 'bg-white font-medium text-slate-700 ring-1 ring-slate-200 hover:ring-indigo-300'}`}>
-              <span className={`flex size-5 items-center justify-center rounded-full text-xs ${i.done ? 'bg-emerald-500 text-white' : 'border border-slate-300'}`}>
-                {i.done ? '✓' : ''}
-              </span>
-              {i.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </Card>
-  )
-}
-
-export default function CandidateDashboard() {
+export default function CompanyDashboard() {
   const { profile } = useAuth()
-  const cand = useCandidateData()
-  const [jobs, setJobs] = useState(null)
+  const [state, setState] = useState(null)
+  const [error, setError] = useState('')
+  const [updatingJob, setUpdatingJob] = useState(null)
+
+  const load = useCallback(async () => {
+    if (!profile?.id) {
+      setState({ company: null, jobs: [] })
+      return
+    }
+
+    const [
+      { data: company, error: companyError },
+      { data: jobs, error: jobsError },
+    ] = await Promise.all([
+      supabase
+        .from('companies')
+        .select('*')
+        .eq('id', profile.id)
+        .maybeSingle(),
+
+      supabase
+        .from('jobs')
+        .select(
+          '*, job_skills(weight, skills(name)), applications(id, status, is_recommended)',
+        )
+        .eq('company_id', profile.id)
+        .order('created_at', { ascending: false }),
+    ])
+
+    if (companyError || jobsError) {
+      setError('Não foi possível carregar os dados da empresa. Tente novamente.')
+      setState({ company: company ?? null, jobs: jobs ?? [] })
+      return
+    }
+
+    setError('')
+    setState({ company, jobs: jobs ?? [] })
+  }, [profile?.id])
 
   useEffect(() => {
-    fetchOpenJobs().then(setJobs).catch(() => setJobs([]))
-  }, [])
+    load()
+  }, [load])
 
-  const ranked = useMemo(
-    () =>
-      (jobs ?? [])
-        .map((job) => ({ job, match: cand.matchFor(job) }))
-        .sort((a, b) => (b.match?.score ?? -1) - (a.match?.score ?? -1)),
-    [jobs, cand],
-  )
-  const recommended = ranked.filter((r) => isRecommended(r.match?.score, r.job.min_gpa))
-  const others = ranked.filter((r) => !isRecommended(r.match?.score, r.job.min_gpa)).slice(0, 6)
+  async function setStatus(job, status) {
+    setUpdatingJob(job.id)
+    setError('')
 
-  if (cand.loading || !jobs) return <PageLoader />
+    const { error: updateError } = await supabase
+      .from('jobs')
+      .update({
+        status,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', job.id)
+      .eq('company_id', profile.id)
 
-  const avg = cand.grades.length ? cand.grades.reduce((s, g) => s + Number(g.grade), 0) / cand.grades.length : null
-  const active = cand.applications.filter((a) => !['withdrawn', 'rejected'].includes(a.status)).length
-  const firstName = profile.full_name.split(' ')[0]
+    if (updateError) {
+      setError('Não foi possível atualizar o status da vaga.')
+      setUpdatingJob(null)
+      return
+    }
+
+    await load()
+    setUpdatingJob(null)
+  }
+
+  if (!state) return <PageLoader />
+
+  const { company, jobs } = state
+
+  if (!company) {
+    return (
+      <Container className="max-w-2xl">
+        <EmptyState
+          title="Cadastre os dados da sua empresa"
+          action={
+            <Button to="/empresa/perfil">
+              Completar cadastro
+            </Button>
+          }
+        >
+          Antes de publicar vagas, precisamos saber o nome e alguns dados da
+          empresa.
+        </EmptyState>
+      </Container>
+    )
+  }
+
+  const apps = jobs
+    .flatMap((job) => job.applications ?? [])
+    .filter((application) => application.status !== 'withdrawn')
+
+  const open = jobs.filter((job) => job.status === 'open').length
+
+  const pendingCount = apps.filter(
+    (application) => application.status === 'pending',
+  ).length
+
+  const recommendedCount = apps.filter(
+    (application) => application.is_recommended,
+  ).length
+
+  const tableTextStyle = {
+    color: 'var(--text-primary)',
+  }
+
+  const secondaryTextStyle = {
+    color: 'var(--text-secondary)',
+  }
 
   return (
     <Container>
-      <PageHeader title={`Olá, ${firstName}!`} subtitle="Estas são as vagas que mais combinam com o seu desempenho acadêmico." />
+      <div
+        className="min-h-[70vh] transition-colors"
+        style={{
+          backgroundColor: 'var(--page-bg)',
+          color: 'var(--text-primary)',
+        }}
+      >
+        <PageHeader
+          title={company.company_name}
+          subtitle="Gerencie suas vagas de estágio e acompanhe os candidatos ranqueados por desempenho acadêmico."
+          actions={<Button to="/empresa/vagas/nova">+ Nova vaga</Button>}
+        />
 
-      <Checklist
-        items={[
-          { label: 'Informar faculdade e curso', to: '/candidato/perfil', done: !!cand.candidate?.curriculum_id },
-          { label: 'Cadastrar notas', to: '/candidato/historico', done: cand.grades.length > 0 },
-          { label: 'Escrever uma bio', to: '/candidato/perfil', done: !!cand.candidate?.bio },
-        ]}
-      />
-
-      <div className="mb-10 grid gap-4 sm:grid-cols-3">
-        <Stat label="Vagas recomendadas" value={recommended.length} hint={`de ${jobs.length} vagas abertas`} />
-        <Stat label="Média das disciplinas" value={nota(avg)} hint={`${cand.grades.length} disciplina${cand.grades.length === 1 ? '' : 's'} cadastrada${cand.grades.length === 1 ? '' : 's'}`} />
-        <Stat label="Candidaturas ativas" value={active} hint={<Link to="/candidato/candidaturas" className="text-indigo-600 hover:underline">Acompanhar →</Link>} />
-      </div>
-
-      <section>
-        <h2 className="mb-4 text-lg font-bold text-slate-900">Recomendadas para você</h2>
-        {recommended.length ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {recommended.map(({ job, match }) => (
-              <JobCard key={job.id} job={job} match={match} applied={!!cand.applicationFor(job.id)} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            title="Ainda não há vagas recomendadas"
-            action={cand.grades.length ? <Button to="/vagas" variant="secondary">Ver todas as vagas</Button> : <Button to="/candidato/historico">Cadastrar notas</Button>}
+        {error && (
+          <div
+            role="alert"
+            className="mb-5 rounded-xl border p-4 text-sm"
+            style={{
+              backgroundColor: 'var(--surface-bg)',
+              borderColor: 'var(--danger-color)',
+              color: 'var(--danger-color)',
+            }}
           >
-            {cand.grades.length
-              ? 'Nenhuma vaga aberta atinge a nota de referência com o seu histórico atual. Confira as outras vagas abaixo.'
-              : 'Cadastre suas disciplinas e notas para calcularmos sua compatibilidade com cada vaga.'}
-          </EmptyState>
-        )}
-      </section>
-
-      {others.length > 0 && (
-        <section className="mt-12">
-          <h2 className="mb-1 text-lg font-bold text-slate-900">Outras vagas abertas</h2>
-          <p className="mb-4 text-sm text-slate-500">Seu score ainda está abaixo da referência — mas nada impede você de se candidatar.</p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {others.map(({ job, match }) => (
-              <JobCard key={job.id} job={job} match={match} applied={!!cand.applicationFor(job.id)} />
-            ))}
+            <p>{error}</p>
+            <button
+              type="button"
+              onClick={load}
+              className="mt-2 font-semibold underline underline-offset-2"
+            >
+              Tentar novamente
+            </button>
           </div>
-        </section>
-      )}
+        )}
+
+        <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Stat
+            label="Vagas abertas"
+            value={open}
+            hint={`${jobs.length} no total`}
+          />
+
+          <Stat
+            label="Candidaturas"
+            value={apps.length}
+          />
+
+          <Stat
+            label="Aguardando análise"
+            value={pendingCount}
+          />
+
+          <Stat
+            label="Acima da nota de referência"
+            value={recommendedCount}
+          />
+        </div>
+
+        {jobs.length === 0 ? (
+          <EmptyState
+            title="Nenhuma vaga publicada ainda"
+            action={
+              <Button to="/empresa/vagas/nova">
+                Publicar primeira vaga
+              </Button>
+            }
+          >
+            Defina as áreas de conhecimento mais importantes e receba candidatos
+            ordenados por compatibilidade.
+          </EmptyState>
+        ) : (
+          <Card className="overflow-hidden">
+            <div className="overflow-x-auto">
+              <table
+                className="w-full min-w-[720px] text-sm"
+                style={tableTextStyle}
+              >
+                <thead
+                  className="text-left text-xs font-semibold uppercase tracking-wide"
+                  style={{
+                    backgroundColor: 'var(--surface-secondary)',
+                    color: 'var(--text-secondary)',
+                  }}
+                >
+                  <tr>
+                    <th className="px-5 py-3">Vaga</th>
+                    <th className="px-5 py-3">Status</th>
+                    <th className="px-5 py-3 text-right">Candidatos</th>
+                    <th className="px-5 py-3">Bolsa</th>
+                    <th className="px-5 py-3">Prazo</th>
+                    <th className="px-5 py-3 text-right">Ações</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {jobs.map((job) => {
+                    const active = (job.applications ?? []).filter(
+                      (application) => application.status !== 'withdrawn',
+                    )
+
+                    const pending = active.filter(
+                      (application) => application.status === 'pending',
+                    ).length
+
+                    const status = JOB_STATUS[job.status]
+                    const busy = updatingJob === job.id
+
+                    return (
+                      <tr
+                        key={job.id}
+                        className="border-t transition-colors hover:bg-[var(--surface-hover)]"
+                        style={{ borderColor: 'var(--border-color)' }}
+                      >
+                        <td className="px-5 py-4">
+                          <Link
+                            to={`/empresa/vagas/${job.id}`}
+                            className="font-semibold hover:underline"
+                            style={{ color: 'var(--primary-color)' }}
+                          >
+                            {job.title}
+                          </Link>
+
+                          <p
+                            className="mt-1 text-xs"
+                            style={secondaryTextStyle}
+                          >
+                            {[job.area, MODALITY[job.modality]]
+                              .filter(Boolean)
+                              .join(' · ')}
+                          </p>
+                        </td>
+
+                        <td className="px-5 py-4">
+                          {status ? (
+                            <Badge tone={status.tone}>
+                              {status.label}
+                            </Badge>
+                          ) : (
+                            <Badge>Status desconhecido</Badge>
+                          )}
+                        </td>
+
+                        <td
+                          className="px-5 py-4 text-right"
+                          style={tableTextStyle}
+                        >
+                          <span
+                            className="font-semibold"
+                            style={{ color: 'var(--text-primary)' }}
+                          >
+                            {active.length}
+                          </span>
+
+                          {pending > 0 && (
+                            <span
+                              className="ml-1.5 inline-block rounded-full px-1.5 text-xs font-semibold"
+                              style={{
+                                backgroundColor: 'var(--surface-secondary)',
+                                color: 'var(--text-primary)',
+                              }}
+                            >
+                              {pending} novo{pending > 1 ? 's' : ''}
+                            </span>
+                          )}
+                        </td>
+
+                        <td
+                          className="px-5 py-4"
+                          style={tableTextStyle}
+                        >
+                          {brl(job.stipend)}
+                        </td>
+
+                        <td
+                          className="px-5 py-4"
+                          style={tableTextStyle}
+                        >
+                          {date(job.application_deadline)}
+                        </td>
+
+                        <td className="px-5 py-4">
+                          <div className="flex justify-end gap-1.5">
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              to={`/empresa/vagas/${job.id}`}
+                            >
+                              Candidatos
+                            </Button>
+
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              to={`/empresa/vagas/${job.id}/editar`}
+                            >
+                              Editar
+                            </Button>
+
+                            {job.status === 'draft' && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                disabled={busy}
+                                onClick={() => setStatus(job, 'open')}
+                              >
+                                {busy ? 'Salvando...' : 'Publicar'}
+                              </Button>
+                            )}
+
+                            {job.status === 'open' && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                disabled={busy}
+                                onClick={() => setStatus(job, 'closed')}
+                              >
+                                {busy ? 'Salvando...' : 'Encerrar'}
+                              </Button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        )}
+      </div>
     </Container>
   )
 }

@@ -1,3 +1,4 @@
+﻿
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { supabase, findOrCreateByName } from '../../lib/supabase'
@@ -76,7 +77,7 @@ export default function JobForm() {
     if (form.workload_hours_per_week && (wl < 1 || wl > 30)) errs.push('A carga horária de estágio deve ficar entre 1 e 30 horas semanais (Lei 11.788/2008).')
     const text = [form.title, form.description, form.requirements].join(' ')
     const hit = text.match(ADVANCED_TERMS)
-    if (hit) errs.push(`Encontramos o termo “${hit[0]}…”. Vagas no Gradematcher não podem exigir conhecimento avançado — estágio é formação.`)
+    if (hit) errs.push(`Encontramos o termo "${hit[0]}". Vagas no GradeMatcher não podem exigir conhecimento avançado — estágio é formação.`)
     const names = jobSkills.map((s) => s.name.trim().toLowerCase()).filter(Boolean)
     if (!names.length) errs.push('Defina pelo menos uma área de conhecimento para o matching.')
     if (new Set(names).size !== names.length) errs.push('Há áreas de conhecimento repetidas.')
@@ -164,7 +165,7 @@ export default function JobForm() {
         )}
 
         <Card className="p-6">
-          <h2 className="mb-4 font-bold text-slate-900">Sobre a vaga</h2>
+          <h2 className="mb-4 font-bold text-theme-primary">Sobre a vaga</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="Título" className="sm:col-span-2">
               <Input required value={form.title} onChange={set('title')} placeholder="Ex.: Estágio em Análise de Dados" />
@@ -190,7 +191,7 @@ export default function JobForm() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="font-bold text-slate-900">Áreas de conhecimento e pesos</h2>
+          <h2 className="font-bold text-theme-primary">Áreas de conhecimento e pesos</h2>
           <p className="mb-4 text-sm text-slate-500">
             O score de cada candidato é a média das notas nessas áreas, ponderada pelo peso (1 = desejável, 5 = essencial).
           </p>
@@ -240,7 +241,7 @@ export default function JobForm() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="mb-4 font-bold text-slate-900">Condições</h2>
+          <h2 className="mb-4 font-bold text-theme-primary">Condições</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             <Field label="Bolsa-auxílio (R$/mês)" hint={`Mínimo de R$ ${MIN_STIPEND.toLocaleString('pt-BR')}.`}>
               <Input required type="number" min={MIN_STIPEND} step="50" value={form.stipend} onChange={set('stipend')} />

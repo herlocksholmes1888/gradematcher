@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { supabase, findOrCreateByName } from '../../lib/supabase'
 import { useAuth } from '../../lib/auth'
 import { fetchCandidate } from '../../lib/queries'
 import { STATES } from '../../lib/format'
 import { Container } from '../../components/Layout'
 import { Alert, Button, Card, Field, Input, PageHeader, PageLoader, Select, Textarea } from '../../components/ui'
+
 
 export default function CandidateProfile() {
   const { profile, refreshProfile } = useAuth()

@@ -1,4 +1,5 @@
 import "../css/recommended-jobs.css";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 function RecommendedJobs() {
 

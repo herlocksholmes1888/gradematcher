@@ -5,6 +5,7 @@ import { useAuth } from '../lib/auth'
 import { Alert, Button, Field, Input, PageLoader } from '../components/ui'
 import { AuthShell, homeFor } from './Login'
 import { RoleToggle } from './Signup'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 
 // Conta autenticada mas sem linha em profiles (ex.: criada fora do site). Completa o cadastro.
 export default function Onboarding() {

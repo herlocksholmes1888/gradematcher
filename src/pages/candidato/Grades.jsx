@@ -1,3 +1,4 @@
+﻿
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase, findOrCreateByName } from '../../lib/supabase'
 import { useAuth } from '../../lib/auth'
@@ -143,7 +144,7 @@ export default function CandidateGrades() {
       {msg && <div className="mb-4"><Alert tone={msg.tone}>{msg.text}</Alert></div>}
 
       <Card className="mb-6 p-6">
-        <h2 className="font-bold text-slate-900">Adicionar disciplina</h2>
+        <h2 className="font-bold text-theme-primary">Adicionar disciplina</h2>
         <p className="mb-4 text-sm text-slate-500">
           Ligue cada disciplina a uma <strong>área de conhecimento</strong> — é por ela que comparamos você com as vagas,
           mesmo que o nome da matéria mude de uma faculdade para outra.
@@ -169,8 +170,8 @@ export default function CandidateGrades() {
 
       <Card className="overflow-hidden">
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-          <h2 className="font-bold text-slate-900">Disciplinas da grade</h2>
-          <span className="text-sm text-slate-500">Média: <strong className="text-slate-900">{nota(avg)}</strong></span>
+          <h2 className="font-bold text-theme-primary">Disciplinas da grade</h2>
+          <span className="text-sm text-slate-500">Média: <strong className="text-theme-primary">{nota(avg)}</strong></span>
         </div>
         {subjects.length === 0 ? (
           <p className="px-6 py-10 text-center text-sm text-slate-500">Nenhuma disciplina cadastrada nesta grade ainda.</p>
@@ -181,7 +182,7 @@ export default function CandidateGrades() {
               return (
                 <li key={s.id} className="flex flex-wrap items-center gap-3 px-6 py-3">
                   <div className="min-w-0 flex-1">
-                    <p className="font-medium text-slate-900">{s.name}</p>
+                    <p className="font-medium text-theme-primary">{s.name}</p>
                     <p className="text-xs text-slate-500">
                       {s.skills?.name ? <Badge tone="indigo">{s.skills.name}</Badge> : <span className="text-amber-700">Sem área — não conta no matching</span>}
                       {g?.semester && <span className="ml-2">{g.semester}</span>}

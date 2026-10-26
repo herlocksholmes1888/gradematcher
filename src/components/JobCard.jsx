@@ -1,3 +1,4 @@
+﻿
 import { Link } from 'react-router-dom'
 import { Badge, Card, ScoreRing } from './ui'
 import { MODALITY, brl, place } from '../lib/format'
@@ -21,7 +22,7 @@ export default function JobCard({ job, match, applied }) {
         <div className="flex items-start gap-3">
           <CompanyAvatar name={company?.company_name} url={company?.logo_url} />
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700">{job.title}</h3>
+            <h3 className="font-semibold text-theme-primary group-hover:text-indigo-700">{job.title}</h3>
             <p className="truncate text-sm text-slate-500">{company?.company_name ?? 'Empresa'}</p>
           </div>
           {match && <ScoreRing score={match.score} threshold={threshold} size={52} />}
@@ -43,7 +44,10 @@ export default function JobCard({ job, match, applied }) {
         <div className="mt-auto flex items-end justify-between gap-2 pt-4">
           <div>
             <p className="text-xs text-slate-500">Bolsa-auxílio</p>
-            <p className="font-bold text-slate-900">{brl(job.stipend)}<span className="text-xs font-normal text-slate-500">/mês</span></p>
+            <p className="font-bold text-theme-primary">
+              {brl(job.stipend)}
+              <span className="text-xs font-normal text-slate-500">/mês</span>
+            </p>
           </div>
           <p className="text-right text-xs text-slate-500">{place(job.city, job.state)}</p>
         </div>
