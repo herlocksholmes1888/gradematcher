@@ -9,12 +9,10 @@ O **Gradematcher** conecta candidatos e empresas a partir do histórico acadêmi
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias](#tecnologias)
 - [Estrutura do repositório](#estrutura-do-repositório)
-- [Modelo de dados](#modelo-de-dados)
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação e execução](#instalação-e-execução)
 - [Variáveis de ambiente](#variáveis-de-ambiente)
 - [API](#api)
-- [Roadmap](#roadmap)
 - [Autor](#autor)
 - [Licença](#licença)
 
