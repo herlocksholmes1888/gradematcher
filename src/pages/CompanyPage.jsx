@@ -1,5 +1,6 @@
 import React from "react";
 import "../css/company.css";
+import { ThemeToggle } from '../../components/ThemeToggle'
 
 function CompanyPage() {
 
